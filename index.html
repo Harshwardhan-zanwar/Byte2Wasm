@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS vs Wasm Performance & Energy Benchmark</title>
+    <meta name="description" content="A performance and energy consumption comparison between JavaScript and WebAssembly using a hybrid execution model.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="background-glow"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-wasm">WASM</span>
+                <span class="logo-vs">vs</span>
+                <span class="logo-js">JS</span>
+            </div>
+            <h1>Performance & Energy Benchmark</h1>
+            <p class="subtitle">Hybrid Execution Model Analysis</p>
+        </header>
+
+        <section class="input-section glass">
+            <div class="input-group">
+                <label for="fib-input">Fibonacci Number (n)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="fib-input" value="35" min="1" max="50">
+                    <button id="run-btn">Run Benchmark</button>
+                </div>
+                <small>Recommended: 30-40 for visible performance differences.</small>
+            </div>
+            <div class="config-group">
+                <label for="threshold-input">Hybrid Threshold (n)</label>
+                <input type="number" id="threshold-input" value="25" min="1">
+            </div>
+        </section>
+
+        <section class="results-grid">
+            <!-- JavaScript Card -->
+            <div class="card js glass" id="card-js">
+                <div class="card-header">
+                    <span class="tag">Interpreted</span>
+                    <h2>JavaScript</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span class="label">Time</span>
+                        <span class="value" id="js-time">--</span>
+                        <span class="unit">ms</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Energy</span>
+                        <span class="value" id="js-energy">--</span>
+                        <span class="unit">μJ (est.)</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="js-progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WebAssembly Card -->
+            <div class="card wasm glass" id="card-wasm">
+                <div class="card-header">
+                    <span class="tag">Compiled</span>
+                    <h2>WebAssembly</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span class="label">Time</span>
+                        <span class="value" id="wasm-time">--</span>
+                        <span class="unit">ms</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Energy</span>
+                        <span class="value" id="wasm-energy">--</span>
+                        <span class="unit">μJ (est.)</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="wasm-progress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hybrid Card -->
+            <div class="card hybrid glass" id="card-hybrid">
+                <div class="card-header">
+                    <span class="tag">Adaptive</span>
+                    <h2>Hybrid Model</h2>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span class="label">Time</span>
+                        <span class="value" id="hybrid-time">--</span>
+                        <span class="unit">ms</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Energy</span>
+                        <span class="value" id="hybrid-energy">--</span>
+                        <span class="unit">μJ (est.)</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="hybrid-status" id="hybrid-mode">Waiting...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="visuals glass">
+            <div class="chart-container">
+                <canvas id="performanceChart"></canvas>
+            </div>
+        </section>
+
+        <footer>
+            <p>Built for Compilers Project • Using Emscripten & WebAssembly</p>
+        </footer>
+    </div>
+
+    <!-- The Wasm JS bridge will be loaded here -->
+    <script src="fib.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
