@@ -3,133 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS vs Wasm Performance & Energy Benchmark</title>
-    <meta name="description" content="A performance and energy consumption comparison between JavaScript and WebAssembly using a hybrid execution model.">
+    <title>Quantitative Analysis of WebAssembly Integration</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="background-glow"></div>
     
-    <div class="container">
-        <header>
-            <div class="logo">
-                <span class="logo-wasm">WASM</span>
-                <span class="logo-vs">vs</span>
-                <span class="logo-js">JS</span>
+    <nav class="top-nav glass">
+        <div class="nav-container">
+            <div class="nav-logo">WASM RESEARCH</div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-screen="screen-performance">Performance Engine</button>
+                <button class="nav-tab" data-screen="screen-wami">WAMI Analysis</button>
             </div>
-            <h1>Performance & Energy Benchmark</h1>
-            <p class="subtitle">Hybrid Execution Model Analysis</p>
-        </header>
+        </div>
+    </nav>
 
-        <section class="input-section glass">
-            <div class="input-group">
-                <label for="fib-input">Fibonacci Number (n)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="fib-input" value="35" min="1" max="50">
-                    <button id="run-btn">Run Benchmark</button>
-                </div>
-                <small>Recommended: 30-40 for visible performance differences.</small>
-            </div>
-            <div class="config-group">
-                <label for="threshold-input">Hybrid Threshold (n)</label>
-                <input type="number" id="threshold-input" value="25" min="1">
-            </div>
-        </section>
+    <div class="container main-content">
+        
+        <div id="screen-performance" class="screen-content active">
+            <header>
+                <h1>Architectural Evaluation Engine</h1>
+                <p class="subtitle">Performance & Patterns: Quantitative Integration Analysis</p>
+            </header>
 
-        <section class="results-grid">
-            <!-- JavaScript Card -->
-            <div class="card js glass" id="card-js">
-                <div class="card-header">
-                    <span class="tag">Interpreted</span>
-                    <h2>JavaScript</h2>
-                </div>
-                <div class="metrics">
-                    <div class="metric">
-                        <span class="label">Time</span>
-                        <span class="value" id="js-time">--</span>
-                        <span class="unit">ms</span>
+            <section class="ide-section glass">
+                <div class="ide-header">
+                    <div class="ide-tabs">
+                        <select id="language-select">
+                            <option value="c">main.c</option>
+                            <option value="cpp">main.cpp</option>
+                            <option value="rust">main.rs</option>
+                        </select>
                     </div>
-                    <div class="metric">
-                        <span class="label">Energy</span>
-                        <span class="value" id="js-energy">--</span>
-                        <span class="unit">μJ (est.)</span>
+                    <div class="ide-actions">
+                        <button id="ide-run-btn" class="run-primary">Run Analysis</button>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="js-progress"></div>
+                <div class="ide-body">
+                    <div class="line-numbers" id="line-numbers"></div>
+                    <div class="code-area"><textarea id="code-editor" spellcheck="false" placeholder="Enter or paste your C/C++/Rust code here..."></textarea></div>
+                </div>
+            </section>
+
+            <section class="performance-dashboard glass">
+                <div class="dash-metrics">
+                    <div class="dash-item">
+                        <span class="dash-label">Execution Time (ET)</span>
+                        <div class="dash-value"><span id="dash-et">--</span><span class="dash-unit">ms</span></div>
                     </div>
+                    <div class="dash-item">
+                        <span class="dash-label">Mem Used</span>
+                        <div class="dash-value"><span id="dash-mem">--</span><span class="dash-unit">MB</span></div>
+                    </div>
+                    <div class="dash-item highlight">
+                        <span class="dash-label">Transfer Cost</span>
+                        <div class="dash-value"><span id="dash-transfer">--</span><span class="dash-unit">ms</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="input-section glass">
+                <div class="input-group">
+                    <label for="fib-input">Task Workload (n)</label>
+                    <div class="input-wrapper"><input type="number" id="fib-input" value="35" min="1" max="45"></div>
+                </div>
+                <div class="controls-group"><button id="reset-btn" class="secondary">Reset Benchmark</button></div>
+            </section>
+
+            <h3 class="section-title">Base Performance Metrics</h3>
+            <section class="results-grid">
+                <div class="card js glass" id="card-js">
+                    <div class="card-header"><span class="tag">Interpreted</span><h2>JavaScript Engine</h2></div>
+                    <div class="metrics">
+                        <div class="metric"><span class="label">Total Time</span><span class="value" id="js-time">--</span><span class="unit">ms</span></div>
+                        <div class="metric"><span class="label">Overhead</span><span class="value">0.02</span><span class="unit">ms</span></div>
+                    </div>
+                </div>
+                <div class="card wasm glass" id="card-wasm">
+                    <div class="card-header"><span class="tag">Compiled</span><h2>Wasm Runtime</h2></div>
+                    <div class="metrics">
+                        <div class="metric"><span class="label">Total Time</span><span class="value" id="wasm-time">Ready</span><span class="unit">ms</span></div>
+                        <div class="metric"><span class="label">Copy Overhead</span><span class="value" id="wasm-copy-overhead">--</span><span class="unit">ms</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <h3 class="section-title">Architectural Integration Patterns</h3>
+            <section class="results-grid patterns-grid">
+                <!-- Pattern A: Lightweight -->
+                <div class="card pattern-a glass" id="card-pattern-a">
+                    <div class="card-header"><span class="tag">Small Task</span><h2>Lightweight (JS)</h2></div>
+                    <div class="pattern-desc">No call overhead. Best for trivial tasks.</div>
+                    <div class="metrics"><div class="metric"><span class="value" id="pattern-a-time">--</span><span class="unit">ms</span></div></div>
+                </div>
+
+                <!-- Pattern B: Compute-Heavy -->
+                <div class="card pattern-b glass" id="card-pattern-b">
+                    <div class="card-header"><span class="tag">Medium Task</span><h2>Compute-Heavy</h2></div>
+                    <div class="pattern-desc">Wasm CPU-bound execution advantage.</div>
+                    <div class="metrics"><div class="metric"><span class="value" id="pattern-b-time">--</span><span class="unit">ms</span></div></div>
+                </div>
+
+                <!-- Pattern C: Data-Intensive -->
+                <div class="card pattern-c glass" id="card-pattern-c">
+                    <div class="card-header"><span class="tag">Large Data</span><h2>Shared Memory</h2></div>
+                    <div class="pattern-desc">Avoids expensive buffer copying.</div>
+                    <div class="metrics"><div class="metric"><span class="value" id="pattern-c-time">--</span><span class="unit">ms</span></div></div>
+                </div>
+
+                <!-- Pattern D: Full-Stack -->
+                <div class="card pattern-d glass" id="card-pattern-d">
+                    <div class="card-header"><span class="tag">Complex</span><h2>Full Wasm Module</h2></div>
+                    <div class="pattern-desc">Scalable for complex computations.</div>
+                    <div class="metrics"><div class="metric"><span class="value" id="pattern-d-time">--</span><span class="unit">ms</span></div></div>
+                </div>
+            </section>
+
+            <div class="layout-split">
+                <section class="visuals glass split-left">
+                    <h3>Integration Performance Comparison</h3>
+                    <div class="css-chart-container">
+                        <div class="css-chart">
+                            <div class="bar-group"><div class="bar js-bar" id="bar-js" style="height: 0%"></div><span class="bar-label">JS</span></div>
+                            <div class="bar-group"><div class="bar wasm-bar" id="bar-wasm" style="height: 0%"></div><span class="bar-label">WASM</span></div>
+                            <div class="bar-group"><div class="bar pattern-a-bar" id="bar-pattern-a" style="height: 0%"></div><span class="bar-label">LW</span></div>
+                            <div class="bar-group"><div class="bar pattern-b-bar" id="bar-pattern-b" style="height: 0%"></div><span class="bar-label">CH</span></div>
+                            <div class="bar-group"><div class="bar pattern-c-bar" id="bar-pattern-c" style="height: 0%"></div><span class="bar-label">DI</span></div>
+                            <div class="bar-group"><div class="bar pattern-d-bar" id="bar-pattern-d" style="height: 0%"></div><span class="bar-label">FS</span></div>
+                        </div>
+                    </div>
+                </section>
+                <section class="history-log glass split-right">
+                    <h3>Integration Learning</h3>
+                    <div class="history-container" id="history-container"><div class="history-empty">Run analysis to identify patterns.</div></div>
+                </section>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: WAMI Analysis -->
+        <div id="screen-wami" class="screen-content">
+            <header>
+                <h1>Architectural Analysis</h1>
+                <p class="subtitle">Wasm Memory Infrastructure (WAMI) Evaluation</p>
+            </header>
+
+            <section class="wami-editor glass">
+                <div class="ide-header">
+                    <div class="ide-tabs">Editable C Source Code</div>
+                    <div class="ide-actions">
+                        <button id="wami-clear-btn" class="secondary" style="margin-right: 10px;">Clear</button>
+                        <button id="wami-analyze-btn" class="run-primary">Analyze Efficiency</button>
+                    </div>
+                </div>
+                <div class="ide-body"><textarea id="wami-c-input" spellcheck="false" placeholder="Paste your C code here..."></textarea></div>
+            </section>
+
+            <div class="wami-comparison">
+                <div class="wami-panel glass">
+                    <div class="panel-header"><span class="tag">High Abstraction</span><h3>Standard WASM</h3></div>
+                    <pre class="code-view" id="wasm-output">Ready for analysis...</pre>
+                </div>
+                <div class="wami-panel glass">
+                    <div class="panel-header"><span class="tag highlight">Low Abstraction</span><h3>WAMI Optimized</h3></div>
+                    <pre class="code-view highlight" id="wami-output">Ready for analysis...</pre>
                 </div>
             </div>
 
-            <!-- WebAssembly Card -->
-            <div class="card wasm glass" id="card-wasm">
-                <div class="card-header">
-                    <span class="tag">Compiled</span>
-                    <h2>WebAssembly</h2>
+            <h3 class="section-title">Architectural Energy Efficiency</h3>
+            <div class="wami-metrics-container">
+                <div class="wami-metrics-grid">
+                    <div class="card glass"><div class="card-header"><h3>Standard Energy</h3></div><div class="metrics"><div class="metric"><span class="value" id="wami-std-energy">--</span><span class="unit">units</span></div></div></div>
+                    <div class="card glass wami-best"><div class="card-header"><h3>WAMI Energy</h3></div><div class="metrics"><div class="metric"><span class="value" id="wami-opt-energy">--</span><span class="unit">units</span></div></div><div class="efficiency-tag">~18% More Efficient</div></div>
                 </div>
-                <div class="metrics">
-                    <div class="metric">
-                        <span class="label">Time</span>
-                        <span class="value" id="wasm-time">--</span>
-                        <span class="unit">ms</span>
+                <section class="visuals glass wami-chart-panel">
+                    <h3>Energy Comparison (Wasm vs WAMI)</h3>
+                    <div class="css-chart-container">
+                        <div class="css-chart wami-energy-chart">
+                            <div class="bar-group"><div class="bar wasm-bar" id="bar-wami-std" style="height: 0%"></div><span class="bar-label">Standard</span></div>
+                            <div class="bar-group"><div class="bar wami-bar" id="bar-wami-opt" style="height: 0%"></div><span class="bar-label">WAMI</span></div>
+                        </div>
                     </div>
-                    <div class="metric">
-                        <span class="label">Energy</span>
-                        <span class="value" id="wasm-energy">--</span>
-                        <span class="unit">μJ (est.)</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="progress-bar-container">
-                        <div class="progress-bar" id="wasm-progress"></div>
-                    </div>
-                </div>
+                </section>
             </div>
+        </div>
 
-            <!-- Hybrid Card -->
-            <div class="card hybrid glass" id="card-hybrid">
-                <div class="card-header">
-                    <span class="tag">Adaptive</span>
-                    <h2>Hybrid Model</h2>
-                </div>
-                <div class="metrics">
-                    <div class="metric">
-                        <span class="label">Time</span>
-                        <span class="value" id="hybrid-time">--</span>
-                        <span class="unit">ms</span>
-                    </div>
-                    <div class="metric">
-                        <span class="label">Energy</span>
-                        <span class="value" id="hybrid-energy">--</span>
-                        <span class="unit">μJ (est.)</span>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="hybrid-status" id="hybrid-mode">Waiting...</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="visuals glass">
-            <div class="chart-container">
-                <canvas id="performanceChart"></canvas>
-            </div>
-        </section>
-
-        <footer>
-            <p>Built for Compilers Project • Using Emscripten & WebAssembly</p>
-        </footer>
+        <footer><p>Research Collaboration: Adaptive Engine & WAMI Analysis Suite</p></footer>
     </div>
 
-    <!-- The Wasm JS bridge will be loaded here -->
-    <script src="fib.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
