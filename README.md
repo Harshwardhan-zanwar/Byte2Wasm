@@ -83,7 +83,7 @@ npx serve .
 # Install the "Live Server" extension and click "Go Live"
 Navigate to http://localhost:8080 (if using a local server).
 
-Usage Guide
+## Usage Guide
 Performance Engine
 Select a language (C, C++, or Rust) from the dropdown in the editor panel — a Fibonacci template will load automatically.
 Set the workload value n (1–45) in the "Task Workload" input field. Higher values yield more dramatic Wasm performance advantages.
