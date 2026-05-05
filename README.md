@@ -20,12 +20,6 @@
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage Guide](#usage-guide)
-- [Project Structure](#project-structure)
-- [Integration Patterns Explained](#integration-patterns-explained)
-- [WAMI Analysis Module](#wami-analysis-module)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
